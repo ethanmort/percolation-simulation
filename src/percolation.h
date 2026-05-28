@@ -1,5 +1,5 @@
 /**
- * Implimentation of classical percolation model
+ * Implimentation of square 2D classical percolation model
  */
 
 struct Square {
@@ -7,6 +7,7 @@ struct Square {
     int c;
     int val;
     struct Square *neighbours[4];
+    Square(int j = 0, int i = 0);
 };
 
 class Lattice {
@@ -15,13 +16,13 @@ class Lattice {
     int width;
     Square **sites;
     bool percolates;
-    void connectNeighbours() const;
-    bool checkPercolation(bool);
+    void connectNeighbours();
+    bool checkPercolation(); // To be implimented
 
     public:
-        Lattice(double p, int size);
+        Lattice(double p, int rows, int cols);
         ~Lattice();
-        bool doesPercolate() const;
-}
+        bool doesPercolate() const; // To be implimented
+};
 
 int chance(double p);
