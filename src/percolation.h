@@ -17,7 +17,7 @@ class Lattice {
     Square **sites;
     bool percolates;
     void connectNeighbours();
-    bool checkPercolation(); // To be implimented
+    void checkPercolation(); // To be implimented
 
     public:
         Lattice(double p, int rows, int cols);
