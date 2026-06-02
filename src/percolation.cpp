@@ -32,7 +32,7 @@ Lattice::Lattice(double p,  int height, int width)
 
     connectNeighbours();
 
-    percolation = false;
+    percolates = false;
     checkPercolation();
 }
 
@@ -112,4 +112,9 @@ void Lattice::checkPercolation()
 
     percolates = false;
     return;
+}
+
+bool Lattice::doesPercolate() const
+{
+    return percolates;
 }
