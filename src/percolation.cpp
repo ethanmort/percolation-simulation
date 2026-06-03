@@ -51,8 +51,20 @@ void Lattice::checkPercolation()
             while (!to_visit.empty()) {
                 auto[r,c] = to_visit.front();
                 to_visit.pop();
+                
+                const int dr[4] = {1, 0, -1, 0};
+                const int dc[4] = {0, 1, 0, -1};
 
-                for (auto[nr,nc] : getNeighbours(r,c)) {
+                for (int k = 0; k < 4; k++) {
+                    int nr = r + dr[k];
+                    int nc = c + dc[k];
+
+                    if (nr >= height || nr < 0 ||
+                        nc >= width || nc < 0)
+                    {
+                        continue;
+                    }
+
                     if (sites[nr][nc].occupied && !visited[nr][nc]) {
                         visited[nr][nc] = true;
                         to_visit.push({nr,nc});
@@ -63,6 +75,7 @@ void Lattice::checkPercolation()
                     }
                 }
             }
+            
             if ((r_min == 0 && r_max == height-1) || (c_min == 0 && c_max == width-1)) {
                 percolates = true;
                 return;
@@ -71,29 +84,6 @@ void Lattice::checkPercolation()
     }
     percolates = false;
     return;
-}
-
-std::vector<std::pair<int,int>> Lattice::getNeighbours(int r, int c) const
-{
-    std::vector<std::pair<int,int>> neighbours;
-
-    const int dr[4] = {1, 0, -1, 0};
-    const int dc[4] = {0, 1, 0, -1};
-
-    for (int k = 0; k < 4; k++) {
-        int nr = r + dr[k];
-        int nc = c + dc[k];
-
-        if (nr >= height || nr < 0 ||
-            nc >= width || nc < 0)
-        {
-            continue;
-        }
-
-        neighbours.push_back({nr, nc});
-    }
-
-    return neighbours;
 }
 
 bool Lattice::doesPercolate() const

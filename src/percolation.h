@@ -21,7 +21,6 @@ class Lattice {
     bool percolates;
 
     void checkPercolation();
-    std::vector<std::pair<int,int>> getNeighbours(int r, int c) const;
 
     public:
         Lattice(double p, int height, int width);
