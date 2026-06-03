@@ -5,7 +5,6 @@
 #include <queue>
 
 
-/// Initialise lattice values and allocate memory for sites
 Lattice::Lattice(double p,  int height, int width)
 {
     this->p = p;
@@ -21,28 +20,30 @@ Lattice::Lattice(double p,  int height, int width)
     }
 
     percolates = false;
-    checkPercolation();
+    max_cluster_size = 0;
+    analyse();
 }
 
-/// Returns 1 with chance p and 0 with chance 1-p
 bool chance(double p)
 {
     if (rand()/(double)RAND_MAX < p) return true;
     return false;
 }
 
-// Check for percolation
-void Lattice::checkPercolation()
+void Lattice::analyse()
 {
     std::vector<std::vector<bool>> visited(height, std::vector<bool>(width,false));
 
     std::queue<std::pair<int,int>> to_visit;
+
+    int cluster_number = 0;
 
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {
             if (visited[j][i] || !sites[j][i].occupied) continue;
             to_visit.push({j,i});
             visited[j][i] = true;
+            int cluster_size = 0;
             int r_min = j;
             int r_max = j;
             int c_min = i;
@@ -51,6 +52,9 @@ void Lattice::checkPercolation()
             while (!to_visit.empty()) {
                 auto[r,c] = to_visit.front();
                 to_visit.pop();
+
+                sites[r][c].cluster = cluster_number;
+                cluster_size++;
                 
                 const int dr[4] = {1, 0, -1, 0};
                 const int dc[4] = {0, 1, 0, -1};
@@ -75,18 +79,23 @@ void Lattice::checkPercolation()
                     }
                 }
             }
-            
             if ((r_min == 0 && r_max == height-1) || (c_min == 0 && c_max == width-1)) {
                 percolates = true;
-                return;
+            } else if (cluster_size > max_cluster_size) {
+                max_cluster_size = cluster_size;
             }
+            cluster_number++;
         }
     }
-    percolates = false;
     return;
 }
 
 bool Lattice::doesPercolate() const
 {
     return percolates;
+}
+
+int Lattice::getMaxCluster() const
+{
+    return max_cluster_size;
 }
