@@ -1,10 +1,10 @@
+#include "percolation.h"
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 
-#include "percolation.h"
-
-#define N_REPEATS 10000
+#define N_REPEATS 1000
 
 int main(void)
 {

@@ -2,27 +2,32 @@
  * Implimentation of square 2D classical percolation model
  */
 
-struct Square {
-    int r;
-    int c;
-    int val;
-    struct Square *neighbours[4];
-    Square(int j = 0, int i = 0);
+#ifndef PERCOLATION_H
+#define PERCOLATION_H
+
+#include <vector>
+
+struct Site {
+    bool occupied = false;
+    int cluster =  -1;
 };
 
 class Lattice {
     double p;
     int height;
     int width;
-    Square **sites;
+
+    std::vector<std::vector<Site>> sites;
     bool percolates;
-    void connectNeighbours();
-    void checkPercolation(); // To be implimented
+
+    void checkPercolation();
+    std::vector<std::pair<int,int>> getNeighbours(int r, int c) const;
 
     public:
-        Lattice(double p, int rows, int cols);
-        ~Lattice();
-        bool doesPercolate() const; // To be implimented
+        Lattice(double p, int height, int width);
+        bool doesPercolate() const;
 };
 
-int chance(double p);
+bool chance(double p);
+
+#endif
