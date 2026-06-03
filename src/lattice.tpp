@@ -6,7 +6,7 @@
 #include <vector>
 #include <queue>
 
-template <typename Geometry>
+template <GeometryType Geometry>
 Lattice<Geometry>::Lattice(double p,  int height, int width)
 {
     this->p = p;
@@ -26,7 +26,7 @@ Lattice<Geometry>::Lattice(double p,  int height, int width)
     analyse();
 }
 
-template <typename Geometry>
+template <GeometryType Geometry>
 void Lattice<Geometry>::analyse()
 {
     std::vector<std::vector<bool>> visited(height, std::vector<bool>(width,false));
@@ -84,13 +84,13 @@ void Lattice<Geometry>::analyse()
     return;
 }
 
-template <typename Geometry>
+template <GeometryType Geometry>
 bool Lattice<Geometry>::doesPercolate() const
 {
     return percolates;
 }
 
-template <typename Geometry>
+template <GeometryType Geometry>
 int Lattice<Geometry>::getMaxCluster() const
 {
     return max_cluster_size;

@@ -32,7 +32,15 @@ struct Site {
     int cluster =  -1;
 };
 
-template <typename Geometry>
+template <typename G>
+concept GeometryType = requires(int r, int k)
+{
+    { G::dr(r, k) } -> std::convertible_to<int>;
+    { G::dc(r, k) } -> std::convertible_to<int>;
+    { G::neighbour_count } -> std::convertible_to<int>;
+};
+
+template <GeometryType Geometry>
 class Lattice {
     double p;
     int height;
