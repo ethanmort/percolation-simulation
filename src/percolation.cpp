@@ -1,101 +1,35 @@
 #include "percolation.h"
 
 #include <random>
-#include <vector>
-#include <queue>
 
-
-Lattice::Lattice(double p,  int height, int width)
+int Square::dr(int r, int k)
 {
-    this->p = p;
-    this->height = height;
-    this->width = width;
+    static int dr_options[4] = {1, 0, -1, 0};
+    return dr_options[k];
+}
 
-    sites = std::vector<std::vector<Site>>(height, std::vector<Site>(width));
+int Square::dc(int r, int k)
+{
+    static int dc_options[4] = {0, 1, 0, -1};
+    return dc_options[k];
+}
 
-    for(int j = 0; j < height; j++) {
-        for(int i = 0; i < width; i++) {
-            sites[j][i].occupied = chance(p);
-        }
-    }
+int Hex::dr(int r, int k)
+{
+    static int dr_options_even[6] = {1,0,-1,-1,-1,0};
+    static int dr_options_odd[6] = {1,1,0,-1,0,1};
+    if (r % 2 == 0) return dr_options_even[k];
+    return dr_options_odd[k];
+}
 
-    percolates = false;
-    max_cluster_size = 0;
-    analyse();
+int Hex::dc(int r, int k)
+{
+    static int dc_options[6] = {0,1,1,0,-1,-1};
+    return dc_options[k];
 }
 
 bool chance(double p)
 {
     if (rand()/(double)RAND_MAX < p) return true;
     return false;
-}
-
-void Lattice::analyse()
-{
-    std::vector<std::vector<bool>> visited(height, std::vector<bool>(width,false));
-
-    std::queue<std::pair<int,int>> to_visit;
-
-    int cluster_number = 0;
-
-    for (int j = 0; j < height; j++) {
-        for (int i = 0; i < width; i++) {
-            if (visited[j][i] || !sites[j][i].occupied) continue;
-            to_visit.push({j,i});
-            visited[j][i] = true;
-            int cluster_size = 0;
-            int r_min = j;
-            int r_max = j;
-            int c_min = i;
-            int c_max = i;
-
-            while (!to_visit.empty()) {
-                auto[r,c] = to_visit.front();
-                to_visit.pop();
-
-                sites[r][c].cluster = cluster_number;
-                cluster_size++;
-                
-                const int dr[4] = {1, 0, -1, 0};
-                const int dc[4] = {0, 1, 0, -1};
-
-                for (int k = 0; k < 4; k++) {
-                    int nr = r + dr[k];
-                    int nc = c + dc[k];
-
-                    if (nr >= height || nr < 0 ||
-                        nc >= width || nc < 0)
-                    {
-                        continue;
-                    }
-
-                    if (sites[nr][nc].occupied && !visited[nr][nc]) {
-                        visited[nr][nc] = true;
-                        to_visit.push({nr,nc});
-                        r_min = std::min(nr,r_min);
-                        r_max = std::max(nr,r_max);
-                        c_min = std::min(nc,c_min);
-                        c_max = std::max(nc,c_max);
-                    }
-                }
-            }
-            if ((r_min == 0 && r_max == height-1) || (c_min == 0 && c_max == width-1)) {
-                percolates = true;
-            } else if (cluster_size > max_cluster_size) {
-                max_cluster_size = cluster_size;
-            }
-            cluster_number++;
-        }
-    }
-    return;
-}
-
-bool Lattice::doesPercolate() const
-{
-    return percolates;
-}
-
-int Lattice::getMaxCluster() const
-{
-    return max_cluster_size;
 }

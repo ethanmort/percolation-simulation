@@ -13,7 +13,7 @@
 #include <fstream>
 #include <iomanip>
 
-#define N_REPEATS 10000
+#define N_REPEATS 1000
 
 int main(void)
 {
@@ -26,7 +26,7 @@ int main(void)
         int percolate_count = 0;
         int max_cluster_count = 0;
         for (int n = 0; n < N_REPEATS; n++) {
-            Lattice lat(p, 20, 20);
+            Lattice<Square> lat(p, 20, 20);
             if (lat.doesPercolate()) percolate_count++;
             max_cluster_count += lat.getMaxCluster();
         }
