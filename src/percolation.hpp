@@ -8,8 +8,7 @@
 #include <vector>
 
 /// Square lattice morphology
-class Square
-{
+class Square {
     public:
         static constexpr int neighbour_count = 4;
 
@@ -19,10 +18,10 @@ class Square
 };
 
 /// Hexagonal lattice morphology
-class Hex
-{
+class Hex {
     public:
         static constexpr int neighbour_count = 6;
+        
         static int dr(int r, int k);
         static int dc(int r, int k);
 };
@@ -48,7 +47,7 @@ class Lattice {
     std::vector<std::vector<Site>> sites;
 
     bool percolates;
-    int max_cluster_size; // largest non spanning clusters
+    int max_cluster_size; // size of largest non spanning cluster
 
     /// Check for percolation, label clusters, and find maximum cluster size
     void analyse();

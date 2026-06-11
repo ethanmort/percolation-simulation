@@ -1,4 +1,4 @@
-#include "percolation.h"
+#include "percolation.hpp"
 
 #include <random>
 

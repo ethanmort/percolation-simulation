@@ -1,7 +1,7 @@
 #ifndef LATTICE_TPP
 #define LATTICE_TPP
 
-#include "percolation.h"
+#include "percolation.hpp"
 
 #include <vector>
 #include <queue>
