@@ -10,3 +10,8 @@ target_link_libraries(get_percolation_results
         CLI11
         Percolation
 )
+
+target_compile_definitions(get_percolation_results
+    PRIVATE
+        OUTPUT_DIR="${CMAKE_SOURCE_DIR}/output/"
+)

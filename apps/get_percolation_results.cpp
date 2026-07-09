@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     }
 
     // Output results
-    std::ofstream Results(output_name);
+    std::ofstream Results(std::string(OUTPUT_DIR) + output_name);
 
     Results << "geometry,h,w,p,chance,max_cluster\n";
     Results << std::fixed << std::setprecision(6);
