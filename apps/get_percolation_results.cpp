@@ -13,6 +13,11 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <filesystem>
+
+#ifndef OUTPUT_DIR
+#error "OUTPUT_DIR is not defined. It needs to be set using target_compile_defintions() in apps/CMakeLists.txt"
+#endif
 
 template <typename T>
 requires std::integral<T> || std::floating_point<T>
@@ -99,7 +104,9 @@ int main(int argc, char *argv[])
     }
 
     // Output results
-    std::ofstream Results(std::string(OUTPUT_DIR) + output_name);
+    std::filesystem::path output_path = std::filesystem::path(OUTPUT_DIR) / output_name; // if output_name is absolute, output_path = output_name.
+    std::filesystem::create_directories(output_path.parent_path()); // Creates output directory if it doesnt exist
+    std::ofstream Results(output_path); //
 
     Results << "geometry,h,w,p,chance,max_cluster\n";
     Results << std::fixed << std::setprecision(6);
