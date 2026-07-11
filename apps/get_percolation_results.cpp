@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
     CLI::App app;
 
     std::vector<std::string> geometries;
-    app.add_option("--geometry", geometries, "Lattice geometry (square, hex)")
-        ->expected(1,2)
-        ->check(CLI::IsMember({"square", "hex"}))
+    app.add_option("--geometry", geometries, "Lattice geometry (triangle, square, hex)")
+        ->expected(1,3)
+        ->check(CLI::IsMember({"square", "hex", "triangle"}))
         ->required();
 
     int n_repeats = 1000;
@@ -96,8 +96,10 @@ int main(int argc, char *argv[])
         validate_input_logic(h, "h", app);
         validate_input_logic(w, "w", app);
 
-        if (geometries.size() == 2 && geometries[0] == geometries[1]) {
-            throw CLI::ValidationError("--geometry", "Duplicate geometries specified");
+        if (geometries.size() > 1) {
+            if (geometries[0] == geometries[1] || geometries[0] == geometries[2] || geometries[1] == geometries[2]) {
+                throw CLI::ValidationError("--geometry", "Duplicate geometries specified");
+            }
         }
     } catch (const CLI::ParseError &e) {
         return app.exit(e);
@@ -106,7 +108,7 @@ int main(int argc, char *argv[])
     // Output results
     std::filesystem::path output_path = std::filesystem::path(OUTPUT_DIR) / output_name; // if output_name is absolute, output_path = output_name.
     std::filesystem::create_directories(output_path.parent_path()); // Creates output directory if it doesnt exist
-    std::ofstream Results(output_path); //
+    std::ofstream Results(output_path);
 
     Results << "geometry,h,w,p,chance,max_cluster\n";
     Results << std::fixed << std::setprecision(6);
@@ -116,6 +118,8 @@ int main(int argc, char *argv[])
             run_lattice_sweep<Square>(geometry, n_repeats, h, w, p, Results);
         } else if (geometry == "hex") {
             run_lattice_sweep<Hex>(geometry, n_repeats, h, w, p, Results);
+        } else if (geometry == "triangle") {
+            run_lattice_sweep<Triangle>(geometry, n_repeats, h, w, p, Results);
         }
     }
 

@@ -7,23 +7,32 @@
 
 #include <vector>
 
+/// Triangular lattice morphology
+class Triangle {
+    public:
+        static constexpr int neighbour_count = 6;
+
+        static int dr(int r, int c, int k);
+        static int dc(int r, int c, int k);
+};
+
 /// Square lattice morphology
 class Square {
     public:
         static constexpr int neighbour_count = 4;
 
         /// Change in row and column values between site and neighbours
-        static int dr(int r, int k);
-        static int dc(int r, int k);
+        static int dr(int r, int c, int k);
+        static int dc(int r, int c, int k);
 };
 
 /// Hexagonal lattice morphology
 class Hex {
     public:
-        static constexpr int neighbour_count = 6;
+        static constexpr int neighbour_count = 3;
         
-        static int dr(int r, int k);
-        static int dc(int r, int k);
+        static int dr(int r, int c, int k);
+        static int dc(int r, int c, int k);
 };
 
 struct Site {
@@ -32,10 +41,10 @@ struct Site {
 };
 
 template <typename G>
-concept GeometryType = requires(int r, int k)
+concept GeometryType = requires(int r, int c, int k)
 {
-    { G::dr(r, k) } -> std::convertible_to<int>;
-    { G::dc(r, k) } -> std::convertible_to<int>;
+    { G::dr(r, c, k) } -> std::convertible_to<int>;
+    { G::dc(r, c, k) } -> std::convertible_to<int>;
     { G::neighbour_count } -> std::convertible_to<int>;
 };
 

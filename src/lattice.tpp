@@ -54,8 +54,8 @@ void Lattice<Geometry>::analyse()
                 cluster_size++;
 
                 for (int k = 0; k < Geometry::neighbour_count; k++) {
-                    int nr = r + Geometry::dr(r,k);
-                    int nc = c + Geometry::dc(r,k);
+                    int nr = r + Geometry::dr(r,c,k);
+                    int nc = c + Geometry::dc(r,c,k);
 
                     if (nr >= height || nr < 0 ||
                         nc >= width || nc < 0)
