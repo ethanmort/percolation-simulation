@@ -1,17 +1,18 @@
-add_executable(get_percolation_results)
+# Simulation
+add_executable(simulation)
 
-target_sources(get_percolation_results
+target_sources(simulation
     PRIVATE
-        get_percolation_results.cpp
+        simulation.cpp
 )
 
-target_link_libraries(get_percolation_results
+target_link_libraries(simulation
     PRIVATE
         CLI11
         Percolation
 )
 
-target_compile_definitions(get_percolation_results
+target_compile_definitions(simulation
     PRIVATE
-        OUTPUT_DIR="${CMAKE_SOURCE_DIR}/output/"
+        OUTPUT_DIR="${CMAKE_SOURCE_DIR}/output/simulation/"
 )

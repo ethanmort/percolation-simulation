@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     app.add_option("--w-step", w.step, "Step in width")
         ->check(CLI::PositiveNumber);
     
-    std::string output_name = "percolation_results.csv";
+    std::string output_name = "results.csv";
     app.add_option("--output-file", output_name, "Output name");
 
     CLI11_PARSE(app, argc, argv);

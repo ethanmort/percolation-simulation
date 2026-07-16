@@ -4,7 +4,7 @@ A 2D bernoulli site-percolation simulation written in C++.
 Supported features include:
 - Square, hexagonal, and triangular lattice geometries
 - BFS percolation check, cluster labelling, and largest non-spanning cluster identifier
-- Parameter sweep application (get_percolation_results) which calculates percentage percolated and average largest cluster for each configuration
+- Parameter sweep application (simulation) which calculates percentage percolated and average largest cluster for each configuration
 - Plotting of results within a jupyter notebook
 
 Includes CMake support and CLI11 implementation.
@@ -14,7 +14,7 @@ Includes CMake support and CLI11 implementation.
 ### Prerequisites
 You will need:
 - a C++ compiler
-- CMake 3.2+
+- CMake 4.3+
 
 First we need to check out the git repo:
 ```bash
@@ -31,14 +31,14 @@ Then to build the project from source,
 ## Usage
 
 ```bash
-❯ ./bin/get_percolation_results <parameters>
+❯ ./bin/simulation <parameters>
 ```
 To see what parameters are available:
 ```bash
-❯ ./bin/get_percolation_results --help
+❯ ./bin/simulation --help
 ```
-By default, results file is `/output/percolation_results.csv`. Filename or path can be set using `--output-file`.
+By default, results file is `/output/simulation/results.csv`. Filename or path can be set using `--output-file`.
 
 ## Visualisation
-To view results, `/notebooks/plot_results.ipynb` can be used to plot the the curves of percentage percolated and average largest cluster against $p$.
+To view results, `/notebooks/plot_simulation_results.ipynb` can be used to plot the the curves of percentage percolated and average largest cluster against $p$.
 
