@@ -21,7 +21,7 @@ class Square {
     public:
         static constexpr int neighbour_count = 4;
 
-        /// Change in row and column values between site and neighbours
+        // Change in row and column values between site and neighbours
         static int dr(int r, int c, int k);
         static int dc(int r, int c, int k);
 };
@@ -65,6 +65,7 @@ class Lattice {
         Lattice(double p, int height, int width);
         bool doesPercolate() const;
         int getMaxCluster() const;
+        std::vector<std::vector<Site>> getSites() const;
 };
 
 /// Return true with chance p and false with chance 1-p

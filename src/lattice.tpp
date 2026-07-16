@@ -96,4 +96,10 @@ int Lattice<Geometry>::getMaxCluster() const
     return max_cluster_size;
 }
 
+template <GeometryType Geometry>
+std::vector<std::vector<Site>> Lattice<Geometry>::getSites() const
+{
+    return sites;
+}
+
 #endif
